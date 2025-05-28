@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "*.json": "json",
+        "utility": "cpp",
+        "iostream": "cpp",
+        "vector.h": "c",
+        "__split_buffer": "cpp",
+        "deque": "cpp",
+        "string": "cpp",
+        "vector": "cpp",
+        "stdexcept": "cpp"
+    }
+}
