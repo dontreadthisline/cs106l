@@ -25,9 +25,9 @@ const std::string COURSES_NOT_OFFERED_PATH = "student_output/courses_not_offered
  * Hint: Remember what types C++ streams work with?!
  */
 struct Course {
-  /* STUDENT TODO */ title;
-  /* STUDENT TODO */ number_of_units;
-  /* STUDENT TODO */ quarter;
+  /* STUDENT TODO */ std::string title;
+  /* STUDENT TODO */ std::string number_of_units;
+  /* STUDENT TODO */ std::string quarter;
 };
 
 /**
@@ -58,8 +58,26 @@ struct Course {
  * @param filename The name of the file to parse.
  * @param courses  A vector of courses to populate.
  */
-void parse_csv(std::string filename, std::vector<Course> courses) {
+void parse_csv(std::string filename, std::vector<Course>& courses) {
   /* (STUDENT TODO) Your code goes here... */
+  std::ifstream ifs(filename);
+  if (!ifs) {
+    return;
+  }
+  std::string line;
+  while (std::getline(ifs,line)) {
+    if (line == "Title,Number of Units,Quarter") {
+      continue;
+    }
+    std::vector<std::string> tokens = split(line,',');
+    if (tokens.size() != 3) {
+      continue;
+    }
+    Course c{tokens[0],tokens[1],tokens[2]};
+    courses.push_back(c);
+  }
+  ifs.close();
+  return;
 }
 
 /**
@@ -80,8 +98,10 @@ void parse_csv(std::string filename, std::vector<Course> courses) {
  * @param all_courses A vector of all courses gotten by calling `parse_csv`.
  *                    This vector will be modified by removing all offered courses.
  */
-void write_courses_offered(std::vector<Course> all_courses) {
+void write_course_helper(std::string path, const std::vector<Course> & courses,bool is_offerd);
+void write_courses_offered(const std::vector<Course>& all_courses) { 
   /* (STUDENT TODO) Your code goes here... */
+  write_course_helper(COURSES_OFFERED_PATH,all_courses,true);
 }
 
 /**
@@ -97,10 +117,27 @@ void write_courses_offered(std::vector<Course> all_courses) {
  *
  * @param unlisted_courses A vector of courses that are not offered.
  */
-void write_courses_not_offered(std::vector<Course> unlisted_courses) {
+void write_courses_not_offered(const std::vector<Course>& unlisted_courses) {
   /* (STUDENT TODO) Your code goes here... */
+  write_course_helper(COURSES_NOT_OFFERED_PATH,unlisted_courses,false);
 }
-
+void write_course_helper(std::string path, const std::vector<Course> & courses,bool is_offerd) {
+  std::ofstream ofs(path);
+  if (!ofs) {
+    return;
+  }
+  ofs << "Title,Number of Units,Quarter\n";
+  for (const Course& c : courses) {
+    if (is_offerd && c.quarter == "null") { //
+      continue;
+    }
+    if (!is_offerd && c.quarter != "null") {
+      continue;
+    }
+    ofs << c << "\n";
+  }
+  ofs.close();
+}
 int main() {
   /* Makes sure you defined your Course struct correctly! */
   static_assert(is_valid_course<Course>, "Course struct is not correctly defined!");
@@ -109,10 +146,9 @@ int main() {
   parse_csv("courses.csv", courses);
 
   /* Uncomment for debugging... */
-  // print_courses(courses);
-
+  print_courses(courses);
+  std::cout << courses.size() << "\n";
   write_courses_offered(courses);
   write_courses_not_offered(courses);
-
   return run_autograder();
 }

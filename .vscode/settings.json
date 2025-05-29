@@ -8,6 +8,9 @@
         "deque": "cpp",
         "string": "cpp",
         "vector": "cpp",
-        "stdexcept": "cpp"
+        "stdexcept": "cpp",
+        "sstream": "cpp",
+        "fstream": "cpp",
+        "istream": "cpp"
     }
 }
