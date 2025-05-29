@@ -11,6 +11,8 @@
  * Forward declarations of some important methods. Don't worry about these!
  * (unless you really want to).
  */
+#include <iostream>
+#include <sstream>
 bool operator==(const Course& lhs, const Course& rhs);
 std::ostream& operator<<(std::ostream& os, const Course& course);
 
@@ -66,7 +68,18 @@ std::ostream& operator<<(std::ostream& os, const Course& course) {
   os << course.title << "," << course.number_of_units << "," << course.quarter;
   return os;
 }
-
+std::istream& operator>>(std::istream& is,Course& course) {
+  std::string line;
+  std::getline(is,line);
+  std::vector<std::string>tokens = split(line,',');
+  if (tokens.size() != 3) {
+    return is;
+  }
+  course.title = tokens[0];
+  course.number_of_units = tokens[1];
+  course.quarter = tokens[2];
+  return is;
+}
 template <typename T>
 concept is_valid_course = requires(T t) {
   { T{"Standard C++ Programming", "1", "2023-2024 Winter"} };

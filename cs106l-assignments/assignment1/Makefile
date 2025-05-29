@@ -5,4 +5,4 @@ run: main
 	chmod +x ./main & ./main
 
 clean:
-	rm ./main
+	rm -f ./main *.o a.out

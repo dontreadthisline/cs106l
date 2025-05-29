@@ -65,16 +65,13 @@ void parse_csv(std::string filename, std::vector<Course>& courses) {
     return;
   }
   std::string line;
-  while (std::getline(ifs,line)) {
-    if (line == "Title,Number of Units,Quarter") {
-      continue;
+  std::getline(ifs,line);//先take掉一行
+  while (!ifs.eof()) {
+    Course c;
+    ifs >> c;
+    if (c.number_of_units != "") {
+      courses.push_back(c);
     }
-    std::vector<std::string> tokens = split(line,',');
-    if (tokens.size() != 3) {
-      continue;
-    }
-    Course c{tokens[0],tokens[1],tokens[2]};
-    courses.push_back(c);
   }
   ifs.close();
   return;
@@ -138,7 +135,7 @@ void write_course_helper(std::string path, const std::vector<Course> & courses,b
   }
   ofs.close();
 }
-int main() {
+int course_code() {
   /* Makes sure you defined your Course struct correctly! */
   static_assert(is_valid_course<Course>, "Course struct is not correctly defined!");
 
@@ -146,9 +143,22 @@ int main() {
   parse_csv("courses.csv", courses);
 
   /* Uncomment for debugging... */
-  print_courses(courses);
+  //print_courses(courses);
   std::cout << courses.size() << "\n";
   write_courses_offered(courses);
   write_courses_not_offered(courses);
   return run_autograder();
+}
+void some_test() {
+  std::string line("aaa,bbb,ccc\nddd,eee,ffff\n");
+  std::stringstream ss(line);
+  while(!ss.eof()) {
+    Course c;
+    std::cout << c<< "\n";
+    ss >> c;
+    std::cout << c<< "\n";
+  }
+}
+int main() {
+  return course_code();
 }
