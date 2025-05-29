@@ -1,11 +1,14 @@
 #include <iostream>
+#include <set> 
+#include <string>
+#include <queue>
 #include "vector.h"
 int& ret_ref() {
   int* a = new int(10);
   int& ref = *a;
   return ref;
 }
-int main() {
+void exmaple() {
   vector<int> v;
   print_vector(v);
   for (int i = 0; i < 5; i++) {
@@ -31,6 +34,25 @@ int main() {
   }
   std::cout << "\n";
   std::cout << v1.size() << "\n";
+}
+void set_exmaple() {
+  std::set<std::string> names;
+  names.insert("zhangshoulei");
+  names.insert("foobar");
+  for (const std::string& name : names) {
+    std::cout << name << "\n";
+  }
+}
+void queue_example() {
+  std::queue<std::string*> names;
+  std::string * line;
+  names.push(new std::string("zhangshoulei"));
+  names.push(new std::string("foobar"));
+  std::string *first = names.front();
+  std::cout << *first << "\n";
+}
+int main() {
+  queue_example(); 
   return 0;
 }
 
