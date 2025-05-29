@@ -15,8 +15,7 @@
   "osx": {
     "MIMode": "lldb"
   },
-  "windows": {
-    "MIMode": "gdb",
-    "miDebuggerPath": "C:\\MinGw\\bin\\gdb.exe"
-  }
+  "configurations": [
+
+  ]
 }
