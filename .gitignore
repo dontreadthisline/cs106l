@@ -1,2 +1,9 @@
-*.o
+**/*.o
 build
+**/.DS_Store
+**/main.dSYM/
+**/main
+**/out/
+**/main.i
+**/main.o
+**/main.s
