@@ -1,11 +1,16 @@
 #include <iostream>
-#include "inheritance.h" 
+#include <vector>
+#include "inheritance.hpp" 
 
 
 int main() {
-  Weapon weapon;
-  Player player;
-  bool is_hit = player.overlaps_with(weapon);
-  std::cout << "is_hit: " << is_hit << "\n";
+  Player p;Tree t; Projectile b;
+  std::vector<Entity*> entities {&t};
+  while(true) {
+    for (auto& entity: entities) {
+      entity->update();
+      entity->render();
+    }
+  }
   return 0;
 }
